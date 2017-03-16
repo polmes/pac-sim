@@ -1,5 +1,12 @@
 function Yp = myode(t,Y)
     global N m g Ix Iy Iz Jxz density S St r_CP r_CPt Cl0 Clalpha Cl0t Clalphat Cd0 K Cd0t Kt;
+    
+    % Given that we can't get ode15i to work, we'll use t-1 values
+    % and then compute the necessary values from those
+    
+    x = Y(1);
+    y = Y(2);
+    z = Y(3);
 
     psi = Y(4);
     theta = Y(5);
@@ -86,7 +93,7 @@ function Yp = myode(t,Y)
 
     f = zeros(N,1);
 
-    f(1) = -xp + (cos(theta)*cos(psi)) * u + (sin(phi)*sin(theta)*cos(psi) - cos(phi)*sin(psi)) * v + (cos(phi)*sin(theta)*cos(psi) + sin(phi)*sin(psi)) * w;
+    Y(1) = -xp + (cos(theta)*cos(psi)) * u + (sin(phi)*sin(theta)*cos(psi) - cos(phi)*sin(psi)) * v + (cos(phi)*sin(theta)*cos(psi) + sin(phi)*sin(psi)) * w;
     f(2) = -yp + (cos(theta)*sin(psi)) * u + (sin(phi)*sin(theta)*sin(psi) + cos(phi)*cos(psi)) * v + (cos(phi)*sin(theta)*sin(psi) - sin(phi)*cos(psi)) * w;
     f(3) = -zp + (-sin(theta) * u) + (sin(phi)*cos(theta)) * v + (cos(phi)*cos(theta)) * w;
     

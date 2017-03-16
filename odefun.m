@@ -1,4 +1,4 @@
-function f = odefun(~,Y,Yp)
+function f = odefun(t,Y,Yp)
 %     x = Y(1);
 %     y = Y(2);
 %     z = Y(3);
@@ -85,9 +85,13 @@ function f = odefun(~,Y,Yp)
 %     betap = Yp(35);
     
     Lbw = [ cos(alpha)*cos(beta)    -cos(alpha)*sin(beta)   -sin(alpha) ;
-            sin(beta)               cos(beta)               0           ;
-            sin(alpha)*cos(beta)    -sin(alpha)*sin(beta)   cos(alpha)  ];
-
+            sin(beta)                cos(beta)               0          ;
+            sin(alpha)*cos(beta)    -sin(alpha)*sin(beta)    cos(alpha) ];
+    
+    Lhb = [ cos(theta)*cos(psi)                             cos(theta)*sin(psi)                             -sin(theta)             ;
+            sin(phi)*sin(theta)*cos(psi)-cos(phi)*sin(psi)  sin(phi)*sin(theta)*sin(psi)+cos(phi)*cos(psi)   sin(phi)*cos(theta)    ;
+            cos(phi)*sin(theta)*cos(psi)+sin(phi)*sin(psi)  cos(phi)*sin(theta)*sin(psi)-sin(phi)*cos(psi)   cos(phi)*cos(theta) ].'; % Lbh^T
+    
     f = zeros(N,1);
 
     f(1) = -xp + (cos(theta)*cos(psi)) * u + (sin(phi)*sin(theta)*cos(psi) - cos(phi)*sin(psi)) * v + (cos(phi)*sin(theta)*cos(psi) + sin(phi)*sin(psi)) * w;
@@ -99,7 +103,7 @@ function f = odefun(~,Y,Yp)
     f(6)=m*g*cos(theta)*cos(phi)+Fz+Fzt-m*(wp-q*u+p*v);
     f(7)=Mx-Ix*pp+Jxz*rp-(Iz-Iy)*q*r+Jxz*p*q;
     f(8)=My-Iy*qp+(Iz-Ix)*p*r-Jxz*(p^2-r^2);
-    f(9)=Mz-Iz*rp-Iz*rp+Jxz*pp+(Ix-Iy)*p*q+Jxz*q*r;
+    f(9)=Mz-Iz*rp+Jxz*pp+(Ix-Iy)*p*q-Jxz*q*r;
     f(10)=p-phip+psip*sin(theta);
     f(11)=q-thetap*cos(phi)-psip*cos(theta)*sin(phi);
     f(12)=r+thetap*sin(phi)-psip*cos(theta)*cos(phi);
@@ -133,8 +137,16 @@ function f = odefun(~,Y,Yp)
     f(31) = -Clt + Cl0t + Clalphat * alpha;
     f(32) = -Cdt + Cd0t + Kt * Clt^2;
     f(33) = -Cqt + Cdt;
-
-%     ff = -[u;v;w] + Lbw * [norm([u;v;w]);0;0];
+    
+%     f(34) = -alpha + deg2rad(5);
+%     f(35) = -beta + deg2rad(1);
+    
+    ff = -[u;v;w] + Lbw * [norm([u;v;w]);0;0];
+    f(34) = ff(1);
+    f(35) = ff(2);
+%     f(36) = ff(3);
+%     
+%     ff = -[xp;yp;zp] + Lhb * [u;v;w];
 %     f(34) = ff(1);
 %     f(35) = ff(2);
 %     f(36) = ff(3);
