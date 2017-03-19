@@ -1,21 +1,29 @@
 function Yp = odeSystem(t,Y)
-    global Alpha Vel Lift m g Ix Iy Iz Jxz density S c Cl0 Clalpha Cd0 K Cm0x Cm0y Cm0z Cmxalpha Cmyalpha Cmzalpha Cmxbeta Cmybeta Cmzbeta;
+    global Z ZZ T TT Alpha Vel Lift m g Ix Iy Iz Jxz density S c Cl0 Clalpha Cd0 K Cmx0 Cmy0 Cmz0 Cmxalpha Cmyalpha Cmzalpha Cmxbeta Cmybeta Cmzbeta;
     
-%     x = Y(1);
-%     y = Y(2);
-%     z = Y(3);
+    global oT oY;
+    
+    T = [T; t];
+    TT = [TT oT(end)];
+    
+    Z = [Z; Y(3)];
+    ZZ = [ZZ; oY(3,end)];
+    
+%     x = oY(1,end);
+%     y = oY(2,end);
+%     z = oY(3,end);
 
-    psi = Y(4);
-    theta = Y(5);
-    phi = Y(6);
+    psi = oY(4,end);
+    theta = oY(5,end);
+    phi = oY(6,end);
 
-    u = Y(7);
-    v = Y(8);
-    w = Y(9);
+    u = oY(7,end);
+    v = oY(8,end);
+    w = oY(9,end);
 
-    p = Y(10);
-    q = Y(11);
-    r = Y(12);
+    p = oY(10,end);
+    q = oY(11,end);
+    r = oY(12,end);
     
     V = norm([u;v;w]);
     Vel = [Vel; V];
@@ -42,9 +50,9 @@ function Yp = odeSystem(t,Y)
     Fy = ff(2);
     Fz = ff(3);
     
-    Cmx = 0; % Cm0x + Cmxalpha * alpha + Cmxbeta * beta;
-    Cmy = Cm0y + Cmyalpha * alpha; %  + Cmybeta * beta;
-    Cmz = 0; % Cm0z + Cmzalpha * alpha + Cmzbeta * beta;
+    Cmx = 0; % Cmx0 + Cmxalpha * alpha + Cmxbeta * beta;
+    Cmy = Cmy0 + Cmyalpha * alpha; %  + Cmybeta * beta;
+    Cmz = 0; % Cmz0 + Cmzalpha * alpha + Cmzbeta * beta;
     
     Mx = 1/2*density*V^2*S*c*Cmx;
     My = 1/2*density*V^2*S*c*Cmy;

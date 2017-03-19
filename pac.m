@@ -1,4 +1,6 @@
-global Alpha Lift Vel m g Ix Iy Iz Jxz density S c Cl0 Clalpha Cd0 K Cm0x Cm0y Cm0z Cmxalpha Cmyalpha Cmzalpha Cmxbeta Cmybeta Cmzbeta;
+global T TT ZZ Z Alpha Lift Vel m g Ix Iy Iz Jxz density S c Cl0 Clalpha Cd0 K Cmx0 Cmy0 Cmz0 Cmxalpha Cmyalpha Cmzalpha Cmxbeta Cmybeta Cmzbeta;
+
+global oT oY;
 
 % Parameters
 m = 0.800; % kg
@@ -11,7 +13,7 @@ c = 0.25; % m
 % r_CP = [-0.1;0;0]; % m
 % r_CPt = [-1;0;0]; % m
 
-Cl0 = 0.25;
+Cl0 = 0.15;
 Clalpha = 4.6;
 
 % Cl0t = 0;
@@ -30,12 +32,12 @@ Iz = 0.84;
 Jxz = 0.02;
 
 % Moments
-Cm0x = 0;
-Cm0y = 0;
-Cm0z = 0;
+Cmx0 = 0;
+Cmy0 = 0;
+Cmz0 = 0;
 
 Cmxalpha = 0; % -0.1;
-Cmyalpha = -0.55;
+Cmyalpha = -1;
 Cmzalpha = 0; % 0.01;
 
 Cmxbeta = 0; % 0.01;
@@ -50,6 +52,10 @@ Cmzbeta = 0; % 0.05;
 Alpha = 0;
 Lift = 0;
 Vel = 0;
+T = 0;
+TT = 0;
+Z = 0;
+ZZ = 0;
 
 % Contants
 g = 9.80665; % m/s^2
@@ -63,7 +69,12 @@ y0 = zeros(N,1);
 y0(3) = -2; % m
 y0(7) = 8; % m/s
 
-[tt, yy] = ode45(@odeSystem, tspan, y0);
+% Options
+oT = 0;
+oY = y0;
+options = odeset('OutputFcn',@odeOutput);
+
+[tt, yy] = ode45(@odeSystem, tspan, y0, options);
 
 % Number of variables/equations
 % N = 35;
