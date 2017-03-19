@@ -9,21 +9,21 @@ function Yp = odeSystem(t,Y)
     Z = [Z; Y(3)];
     ZZ = [ZZ; oY(3,end)];
     
-%     x = oY(1,end);
-%     y = oY(2,end);
-%     z = oY(3,end);
+%     x = Y(1);
+%     y = Y(2);
+%     z = Y(3);
 
-    psi = oY(4,end);
-    theta = oY(5,end);
-    phi = oY(6,end);
+    psi = Y(4);
+    theta = Y(5);
+    phi = Y(6);
 
-    u = oY(7,end);
-    v = oY(8,end);
-    w = oY(9,end);
+    u = Y(7);
+    v = Y(8);
+    w = Y(9);
 
-    p = oY(10,end);
-    q = oY(11,end);
-    r = oY(12,end);
+    p = Y(10);
+    q = Y(11);
+    r = Y(12);
     
     V = norm([u;v;w]);
     Vel = [Vel; V];
