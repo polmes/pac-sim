@@ -1,3 +1,6 @@
+clear variables;
+close all;
+
 global T TT ZZ Z Alpha Lift Vel m g Ix Iy Iz Jxz density S c Cl0 Clalpha Cd0 K Cmx0 Cmy0 Cmz0 Cmxalpha Cmyalpha Cmzalpha Cmxbeta Cmybeta Cmzbeta;
 
 global oT oY;
@@ -72,9 +75,11 @@ y0(7) = 8; % m/s
 % Options
 oT = 0;
 oY = y0;
-options = odeset('OutputFcn',@odeOutput);
+options = odeset('OutputFcn',@odeOutput); % ,'RelTol',1e-3,'AbsTol',1e-3);
 
 [tt, yy] = ode45(@odeSystem, tspan, y0, options);
+
+plot(yy(:,1),-yy(:,3));
 
 % Number of variables/equations
 % N = 35;

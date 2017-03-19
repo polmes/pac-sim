@@ -29,7 +29,7 @@ function Yp = odeSystem(t,Y)
     Vel = [Vel; V];
     
     beta = 0; % asin(v / V);
-    alpha = acos(u / (cos(beta) * V));
+    alpha = atan2(w,u); % acos(u / (cos(beta) * V)); % should be negative?
     Alpha = [Alpha; alpha];
     
     Cl = Cl0 + Clalpha * alpha;
@@ -47,7 +47,7 @@ function Yp = odeSystem(t,Y)
     
     ff = Lbw * (-[D;Q;L]);
     Fx = ff(1);
-    Fy = ff(2);
+    Fy = 0; % ff(2);
     Fz = ff(3);
     
     Cmx = 0; % Cmx0 + Cmxalpha * alpha + Cmxbeta * beta;
